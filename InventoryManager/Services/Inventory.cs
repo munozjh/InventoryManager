@@ -23,7 +23,9 @@ namespace InventoryManager.Services
                     name = Console.ReadLine()?.Trim();
                     if (name?.ToLower() == "exit")
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Returning to main menu...");
+                        Console.ResetColor();
                         return; // exit the method and return to main menu
                     }
                     if (!string.IsNullOrWhiteSpace(name))
