@@ -16,31 +16,51 @@ namespace InventoryManager.Services
         {
             while (true)
             {
-                Console.Write("Enter Product Name or 'Exit' for return: ");
-                string name = Console.ReadLine()?.Trim();
-                if (name.ToLower() == "exit")
-                 {
-                    break;
-                 }
-                if (string.IsNullOrWhiteSpace(name))
+                string name;
+                while (true)
                 {
-                    Console.WriteLine("Name cannot be empty. Operation cancelled.");
-                    return;
+                    Console.Write("Enter Product Name or 'Exit' for return: ");
+                    name = Console.ReadLine()?.Trim();
+                    if (name?.ToLower() == "exit")
+                    {
+                        Console.WriteLine("Returning to main menu...");
+                        return; // exit the method and return to main menu
+                    }
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        break; // valid name entered, exit the loop
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Name cannot be empty. Please try again.");
+                    Console.ResetColor();
                 }
-
-                Console.Write("Enter Quantity: ");
-                if (!int.TryParse(Console.ReadLine(), out int quantity) || quantity < 0)
+            
+                int quantity;
+                while (true)
                 {
-                    Console.WriteLine("Invalid quantity. Operation cancelled.");
-                    return;
+                    Console.Write("Enter Quantity: ");
+                    if (int.TryParse(Console.ReadLine(), out quantity) && quantity >= 0)
+                    {
+                        break; // valid quantity entered, exit the loop
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid quantity. Must be a valid number. Please try again.");
+                    Console.ResetColor();
                 }
-
-                Console.Write("Enter Price: ");
-                if (!decimal.TryParse(Console.ReadLine(), out decimal price) || price < 0)
+                
+                decimal price;
+                while (true)
                 {
-                    Console.WriteLine("Invalid price. Operation cancelled.");
-                    return;
+                    Console.Write("Enter Price: ");
+                    if (decimal.TryParse(Console.ReadLine(), out price) && price >= 0)
+                    {
+                        break; // valid price entered, exit the loop
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid price. Must be a valid number. Please try again.");
+                    Console.ResetColor();
                 }
+               
                 Random random = new Random();
                 int id = random.Next(1000, 10000);
                 do
@@ -101,7 +121,7 @@ namespace InventoryManager.Services
                     continue; //ask for the ID again if the input is not a valid integer
                 }
 
-                // Buscamos el producto con LINQ
+                // look for the product with the given ID
                 var product = products.FirstOrDefault(p => p.Id == id);
                 if (product == null)
                 {
