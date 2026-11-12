@@ -72,8 +72,9 @@ namespace InventoryManager.Services
 
                 Product newProduct = new Product(name, quantity, price, id);
                 products.Add(newProduct);
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Product added successfully.");
-
+                Console.ResetColor();
             }
          }
         public void ViewProducts()
